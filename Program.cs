@@ -1,9 +1,11 @@
-﻿using BenchmarkDotNet.Running;
+﻿using System;
+using System.IO;
+
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-using System;
-using System.IO;
+
+using BenchmarkDotNet.Running;
 
 namespace OptimizeMePlease
 {
@@ -35,15 +37,13 @@ namespace OptimizeMePlease
 
         public static void IWillPopulateData()
         {
-            string sqlConnectionString = @"Server=localhost;Database=OptimizeMePlease;Trusted_Connection=True;Integrated Security=true;MultipleActiveResultSets=true";
+            var sqlConnectionString = @"Server=localhost;Database=OptimizeMePlease;Trusted_Connection=True;Integrated Security=true;MultipleActiveResultSets=true";
 
-            string workingDirectory = Environment.CurrentDirectory;
-            string path = Path.Combine(Directory.GetParent(workingDirectory).Parent.Parent.FullName, @"script.sql");
-            string script = File.ReadAllText(path);
-
-            SqlConnection conn = new SqlConnection(sqlConnectionString);
-
-            Server server = new Server(new ServerConnection(conn));
+            var workingDirectory = Environment.CurrentDirectory;
+            var path = Path.Combine(Directory.GetParent(workingDirectory).Parent.Parent.FullName, @"script.sql");
+            var script = File.ReadAllText(path);
+            var conn = new SqlConnection(sqlConnectionString);
+            var server = new Server(new ServerConnection(conn));
 
             server.ConnectionContext.ExecuteNonQuery(script);
         }
