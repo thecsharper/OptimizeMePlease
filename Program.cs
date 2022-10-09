@@ -23,12 +23,13 @@ namespace OptimizeMePlease
     /// </summary>
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             //Debugging 
-            BenchmarkService benchmarkService = new BenchmarkService();
+            var benchmarkService = new BenchmarkService();
             benchmarkService.GetAuthors();
             benchmarkService.GetAuthors_Optimized2();
+            
             //Comment me after first execution, please.
             //IWillPopulateData();
 
